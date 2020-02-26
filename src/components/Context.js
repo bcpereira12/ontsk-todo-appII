@@ -37,7 +37,10 @@ export class Provider extends Component {
   };
 
   componentDidMount() {
-    axios.get("/todos").then(res => this.setState({ todos: res.data }));
+    axios
+      .get("http://localhost:5000/todos")
+      .then(res => this.setState({ todos: res.data }))
+      .catch(err => console.log(err));
   }
 
   render() {

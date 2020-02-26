@@ -14,7 +14,7 @@ export default class Todo extends Component {
 
   remove = (id, dispatch) => {
     axios
-      .delete(`/todos/${id}`)
+      .delete(`http://localhost:5000/todos/${id}`)
       .then(() => dispatch({ type: "REMOVE", payload: id }));
   };
 
