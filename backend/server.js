@@ -1,7 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const path = require("path");
 
+//Defining global variables
 const app = express();
+const PORT = process.env.PORT || 8080;
 app.use(express.json());
 
 app.use(function(req, res, next) {
@@ -18,7 +21,7 @@ app.use(function(req, res, next) {
 const db = "mongodb://localhost:27017/ontsk";
 
 mongoose
-  .connect(db, { useNewUrlParser: true })
+  .connect(process.env.MONGODB_URI || db, { useNewUrlParser: true })
   .then(console.log("Connected to MongoDB"))
   .catch(err => console.log(err));
 
@@ -51,6 +54,14 @@ app.delete("/todos/:id", (req, res) => {
   Todo.findByIdAndDelete(req.params.id).then(() => res.json({ remove: true }));
 });
 
-app.listen(5000, () => {
-  console.log("Server is running at port 5000");
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+  });
+}
+
+app.listen(PORT, () => {
+  console.log(`Server is starting at PORT: ${PORT}`);
 });
