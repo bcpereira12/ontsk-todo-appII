@@ -19,7 +19,7 @@ export default class Addtodo extends Component {
     e.preventDefault();
     const newTodo = this.state;
     axios
-      .post("http://localhost:5000/todos", newTodo)
+      .post("/todos", newTodo)
       .then(res => dispatch({ type: "ADD", payload: res.data }))
       .catch(err => console.log(err));
     this.setState({ title: "" });
