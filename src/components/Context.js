@@ -38,8 +38,7 @@ export class Provider extends Component {
 
   componentDidMount() {
     axios
-      //.get("http://localhost:5000/todos")
-      .get("/todos")
+      .get("http://localhost:5000/todos")
       .then(res => this.setState({ todos: res.data }))
       .catch(err => console.log(err));
   }

@@ -4,7 +4,8 @@ const path = require("path");
 
 //Defining global variables
 const app = express();
-const PORT = process.env.PORT || 8080;
+//const PORT = process.env.PORT || 8080;
+const port = 5000;
 app.use(express.json());
 
 app.use(function(req, res, next) {
@@ -67,6 +68,6 @@ app.get(/.*/, function(req, res) {
   res.sendFile(__dirname + "/dist/index.html");
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is starting at PORT: ${PORT}`);
+app.listen(port, () => {
+  console.log(`Server is starting at PORT: ${port}`);
 });
