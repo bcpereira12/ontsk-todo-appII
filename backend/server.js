@@ -4,8 +4,8 @@ const path = require("path");
 
 //Defining global variables
 const app = express();
-//const PORT = process.env.PORT || 8080;
-const port = 5000;
+const port = process.env.PORT || 8080;
+
 app.use(express.json());
 
 app.use(function(req, res, next) {
@@ -54,14 +54,6 @@ app.post("/todos", (req, res) => {
 app.delete("/todos/:id", (req, res) => {
   Todo.findByIdAndDelete(req.params.id).then(() => res.json({ remove: true }));
 });
-
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static("client/build"));
-//
-//   app.get("*", (req, res) => {
-//     res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-//   });
-// }
 
 app.use(express.static(__dirname + "/dist/"));
 app.get(/.*/, function(req, res) {
