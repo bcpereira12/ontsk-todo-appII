@@ -1,10 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const dotenv = require("express");
 const path = require("path");
 
 //Defining global variables
 const app = express();
-const port = 5000;
+// const port = 5000;
 
 app.use(express.json());
 
@@ -38,7 +39,7 @@ const todoSchema = new mongoose.Schema({
 const Todo = mongoose.model("todos", todoSchema);
 
 //GET request
-app.get("/todos", (req, res) => {
+app.get("/", (req, res) => {
   Todo.find().then(todo => res.json(todo));
 });
 
@@ -55,11 +56,16 @@ app.delete("/todos/:id", (req, res) => {
   Todo.findByIdAndDelete(req.params.id).then(() => res.json({ remove: true }));
 });
 
-app.use(express.static(__dirname + "/dist/"));
-app.get(/.*/, function(req, res) {
-  res.sendFile(__dirname + "/dist/index.html");
-});
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
 
-app.listen(port, () => {
-  console.log(`Server is starting at PORT: ${port}`);
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+  );
+}
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server is starting at PORT: ${PORT}`);
 });
