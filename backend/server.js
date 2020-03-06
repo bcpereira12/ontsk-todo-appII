@@ -62,6 +62,11 @@ app.delete("/todos/:id", (req, res) => {
 //   });
 // }
 
+app.use(express.static(__dirname + "/dist/"));
+app.get(/.*/, function(req, res) {
+  res.sendFile(__dirname + "/dist/index.html");
+});
+
 app.listen(PORT, () => {
   console.log(`Server is starting at PORT: ${PORT}`);
 });
